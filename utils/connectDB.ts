@@ -1,4 +1,5 @@
-import voters from "@/models/voters";
+import Candidate from "@/models/candidates";
+import Voters from "@/models/voters";
 import mongoose from "mongoose";
 
 const connectToDB = () =>
@@ -8,13 +9,39 @@ const connectToDB = () =>
     )
     .then(() => {
       console.log("Connected to database");
-      voters.create({
-        id: "DAVID-001",
-        pin: "4321",
+      Voters.find({}).then((data) => {
+        if (data.length === 0) {
+          Voters.create({
+            id: "DAVID-001",
+            pin: "4321",
+          });
+          Voters.create({
+            id: "DAVID-002",
+            pin: "1234",
+          });
+        }
       });
-      voters.create({
-        id: "DAVID-002",
-        pin: "1234",
+      Candidate.find({}).then((data) => {
+        if (data.length === 0) {
+          Candidate.create({
+            name: "David",
+            party: "AAA",
+            votes: 0,
+            voters: [],
+          });
+          Candidate.create({
+            name: "Sinaayo",
+            party: "BBB",
+            votes: 0,
+            voters: [],
+          });
+          Candidate.create({
+            name: "Victor",
+            party: "CCC",
+            votes: 0,
+            voters: [],
+          });
+        }
       });
     })
     .catch((err) => console.log(err));

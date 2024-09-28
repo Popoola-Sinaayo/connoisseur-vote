@@ -1,33 +1,31 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './App.module.css'; // Importing the CSS Module
+import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
 
 // Define the type for the candidate data
 interface Candidate {
-  id: number;
+  _id: number;
   name: string;
   party: string;
   votes: number; // Added votes to track the accumulated votes
 }
 
-// Example candidate data with initial votes set to 0
-const initialCandidates: Candidate[] = [
-  { id: 1, name: 'John Doe', party: 'Party A', votes: 0 },
-  { id: 2, name: 'Jane Smith', party: 'Party B', votes: 0 },
-  { id: 3, name: 'Michael Johnson', party: 'Party C', votes: 0 }
-];
 
 const App: React.FC = () => {
-  const [candidates, setCandidates] = useState<Candidate[]>(initialCandidates);
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
 
-  // Handle vote action and accumulate votes
-  const handleVote = (candidateId: number) => {
-    setCandidates(candidates.map(candidate =>
-      candidate.id === candidateId
-        ? { ...candidate, votes: candidate.votes + 1 }
-        : candidate
-    ));
-  };
+ useEffect(() => {
+   const getCandidates = async () => {
+     const response = await axios.get("/api/candidates");
+     if (response.status === 200) {
+       console.log(response.data);
+       setCandidates(response.data);
+     }
+   };
+   getCandidates();
+ }, []);
 
   return (
     <div className={styles.container}>
@@ -35,7 +33,7 @@ const App: React.FC = () => {
 
       <div className={styles.candidatesList}>
         {candidates.map((candidate) => (
-          <div key={candidate.id} className={styles.candidateCard}>
+          <div key={candidate._id} className={styles.candidateCard}>
             <h2 className={styles.h2}>{candidate.name}</h2>
             <p className={styles.p}>Party: {candidate.party}</p>
             <p className={styles.p}>Votes: {candidate.votes}</p> {/* Display the accumulated votes */}

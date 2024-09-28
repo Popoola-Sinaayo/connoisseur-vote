@@ -11,4 +11,6 @@ const voterSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("Voter", voterSchema);
+const Voter = mongoose.models.Voter || mongoose.model("Voter", voterSchema);
+
+export default Voter;
