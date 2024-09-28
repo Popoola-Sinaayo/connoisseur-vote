@@ -8,3 +8,4 @@ export async function GET() {
   const candidates = await Candidate.find();
   return NextResponse.json(candidates, { status: 200 });
 }
+export const dynamic = "force-dynamic";
