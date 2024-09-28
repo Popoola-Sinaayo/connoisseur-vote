@@ -1,3 +1,4 @@
+import voters from "@/models/voters";
 import mongoose from "mongoose";
 
 const connectToDB = () =>
@@ -7,6 +8,14 @@ const connectToDB = () =>
     )
     .then(() => {
       console.log("Connected to database");
+      voters.create({
+        id: "DAVID-001",
+        pin: "4321",
+      });
+      voters.create({
+        id: "DAVID-002",
+        pin: "1234",
+      });
     })
     .catch((err) => console.log(err));
 
