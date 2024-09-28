@@ -22,9 +22,6 @@ interface Candidate {
 
 const App: React.FC = () => {
   const router = useRouter();
-  const [selectedCandidate, setSelectedCandidate] = useState<number | null>(
-    null
-  );
 
   const [candidates, setCandidates] = useState<Array<Candidate>>([]);
 
@@ -42,7 +39,6 @@ const App: React.FC = () => {
   // Handle vote action
   const handleVote = async (candidateId: number) => {
     try {
-      setSelectedCandidate(candidateId);
       // Call the vote API
       const response = await axios.post("/api/vote", {
         token: localStorage.getItem("token"),

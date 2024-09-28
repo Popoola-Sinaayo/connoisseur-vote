@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const data = await req.json();
   console.log(data);
+  await connectToDB();
   const { token, candidateId } = data;
   if (!token || !candidateId) {
     return NextResponse.json(
